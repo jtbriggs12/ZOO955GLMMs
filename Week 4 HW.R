@@ -129,7 +129,12 @@ ggplot(bees, aes(x = BeesN, y = lmeRes))+
 
 # everything looks normal
 
-#Q12
-summary(red.lm)
+#Q12 - Interpret the model. The summary() command is useful here. What have you learned about American Foulbrood? 
+sum <- summary(red.lm)
 
 # In smaller hives, there's a higher density of spores because a singluar worker bee is more likely to encounter an infected larvae and thus come in contact with the spores. It is also possible that the smaller hives sampled here have already been impacted by the bacteria and thus have a smaller population. 
+
+#Q13: Calculate the correlation between observations from the same hive as variance(fhive random effect)/(variance(fhive random effect) + variance(residual)). Given the correlation among observations from the same hive, do you think it's a good use of time to sample each hive multiple times? Why or why not?
+4.1943/(4.1943 + 0.6033)
+# = 0.8742
+#There is a fairly high correlation among sampling events at each hive. IN a survey like this, it may not be worth it to have multiple measurements from individual hives but rather to get a larger sample size of individual hives. Multiple time points aren't providing that much additional info here. 
