@@ -49,4 +49,11 @@ plot(reciplm, select = c(1))
 
 #Log transform seems best here, looking at residuals and variance
 
+# Q3 Develop a simple linear model for transformed spore density. Include infection (fInfection01), number of bees (sBeesN) and their interaction as explanatory variables. Check for a hive effect by plotting standardized residuals (see the residuals(yourmodel, type='pearson') function) against hive ID (fhive). Show your code and your plots. Do residuals look homogenous among hives?
+
+ilm = lm(Spobee ~ Infection*BeesN, data = bees)
+bees$Res = residuals(ilm, type = 'pearson')
+ggplot(bees, aes(x = Hive, y = Res))+
+  geom_point()
+# residuals do not look homogenous
 
