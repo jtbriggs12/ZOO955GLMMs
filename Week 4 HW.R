@@ -93,5 +93,21 @@ ggplot(bees, aes(x = as.factor(Infection), y = F2))+
 ggplot(bees, aes(x = BeesN, y = F2))+
   geom_point()
 
-# they look reasonablly normally distributed
+# they look reasonably normally distributed
+
+#Q9. Step 7. Re-fit the full model with ML (set REML=FALSE) and compare against a reduced model without the interaction term, also fit with ML. Use anova() to compare the models. Which model do you choose? Why?
+full.lm <- lmer(log(Spobee +1) ~ Infection*BeesN + (1 | Hive), data =bees, REML = FALSE)
+red.lm <- lmer(log(Spobee +1) ~ Infection+BeesN + (1 | Hive), data =bees, REML = FALSE)
+
+anova(full.lm, red.lm)
+#The reduced model with no interact has a lower AIC value, so we will continue with that.
+
+#Q10. Step 8. Iterate #7 to arrive at the final model. Show your work. What is your final set of fixed effects?
+red.lm <- lmer(log(Spobee +1) ~ Infection+BeesN + (1 | Hive), data =bees, REML = FALSE)
+red2.lm <- lmer(log(Spobee +1) ~ Infection + (1 | Hive), data =bees, REML = FALSE)
+red3.lm <- lmer(log(Spobee +1) ~ BeesN + (1 | Hive), data =bees, REML = FALSE)
+anova(red.lm, red2.lm, red3.lm)
+
+#The model with the lowest AIC value is the reduced model from Q9 - our final set of fixed effects is thus infection presence or absence & number of bees
+
 
