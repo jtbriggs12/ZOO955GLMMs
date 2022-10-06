@@ -55,5 +55,5 @@ ilm = lm(Spobee ~ Infection*BeesN, data = bees)
 bees$Res = residuals(ilm, type = 'pearson')
 ggplot(bees, aes(x = Hive, y = Res))+
   geom_point()
-# residuals do not look homogenous
+# residuals do not look homogenous - 
 
