@@ -76,6 +76,22 @@ summary(Q5.lme)
 anova(Q5.lme,ilm)
 #Based on the AIC values we would choose the ME model - we went with a random intercept structure. 
 
+# Q8 Check the model: plot standardized residuals vs. fitted values and vs. each predictor. (You can get standardized residuals with residuals(yourmodel, type='pearson')). How do they look?
 
+bees$lmeRes = residuals(Q5.lme, type = 'pearson')
+bees$F2 = fitted(Q5.lme)
 
+ggplot(bees, aes(x = as.factor(Infection), y = lmeRes))+
+  geom_boxplot()
+
+ggplot(bees, aes(x = BeesN, y = lmeRes))+
+  geom_point()
+
+ggplot(bees, aes(x = as.factor(Infection), y = F2))+
+  geom_boxplot()
+
+ggplot(bees, aes(x = BeesN, y = F2))+
+  geom_point()
+
+# they look reasonablly normally distributed
 
