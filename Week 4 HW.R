@@ -110,4 +110,26 @@ anova(red.lm, red2.lm, red3.lm)
 
 #The model with the lowest AIC value is the reduced model from Q9 - our final set of fixed effects is thus infection presence or absence & number of bees
 
+# Q11. Step 9. Fit the final model with REML. Check assumptions by plotting a histogram of residuals, plotting Pearson standardized residuals vs. fitted values, and plotting Pearson standardized residuals vs. explanatory variables. Are there issues with the model? If so, how might you address them?
 
+red.lm <- lmer(log(Spobee +1) ~ Infection+BeesN + (1 | Hive), data =bees, REML = T)
+hist(residuals(red.lm))
+
+bees$F2 = fitted(red.lm)
+bees$lmeRes = residuals(red.lm, type = 'pearson')
+
+ggplot(bees, aes(x = F2, y = lmeRes))+
+  geom_point()
+
+ggplot(bees, aes(x = Infection, y = lmeRes))+
+  geom_boxplot()
+
+ggplot(bees, aes(x = BeesN, y = lmeRes))+
+  geom_point()
+
+# everything looks normal
+
+#Q12
+summary(red.lm)
+
+# In smaller hives, there's a higher density of spores because a singluar worker bee is more likely to encounter an infected larvae and thus come in contact with the spores. It is also possible that the smaller hives sampled here have already been impacted by the bacteria and thus have a smaller population. 
