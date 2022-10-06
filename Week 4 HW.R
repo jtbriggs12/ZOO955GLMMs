@@ -2,7 +2,9 @@
 #Authors: Ian & Jess
 #Date Created: 2022-10-04
 
-library(tidyverse): library(nlme)
+library(tidyverse)
+library(nlme)
+library(lme4)
 bees <- read.table('Bees.txt', header = TRUE)
 #spobee - density of p larvae spores per bee
 #infection - degree of infection
@@ -51,7 +53,7 @@ plot(reciplm, select = c(1))
 
 # Q3 Develop a simple linear model for transformed spore density. Include infection (fInfection01), number of bees (sBeesN) and their interaction as explanatory variables. Check for a hive effect by plotting standardized residuals (see the residuals(yourmodel, type='pearson') function) against hive ID (fhive). Show your code and your plots. Do residuals look homogenous among hives?
 
-ilm = lm(Spobee ~ Infection*BeesN, data = bees)
+ilm = lm(log(Spobee+1) ~ Infection * BeesN, data = bees)
 bees$Res = residuals(ilm, type = 'pearson')
 ggplot(bees, aes(x = Hive, y = Res))+
   geom_point()
@@ -65,7 +67,15 @@ ggplot(bees, aes(x = Hive, y = Res))+
 # We will use Hive as a random effect
 
 # Q6 Step 4. Fit the "beyond optimal" ME model(s) with lmer() in the lme4 package (transformed spore density is response, fInfection01, sBeesN, and interaction are the explanatory variables). Show your code.
-Q5.lme <- lme(Spobee ~ Infection*BeesN, random = ~ 1 | Hive,
-              method ="REML", data =bees)
+Q5.lme <- lmer(log(Spobee +1) ~ Infection*BeesN + (1 | Hive), data =bees)
 
 summary(Q5.lme)
+
+#Q7 Compare the linear regression and ME model(s) with a likelihood ratio test, including correction for testing on the boundary if needed. Use the anova() command. This will re-fit your lmer model with maximum likelihood, but this is OK (note there are some debates about exactly how to best compare an lm and lmer model). Show your work and the results. Which random effect structure do you choose based on the results?
+
+anova(Q5.lme,ilm)
+#Based on the AIC values we would choose the ME model - we went with a random intercept structure. 
+
+
+
+
