@@ -2,7 +2,7 @@
 #Authors: Ian & Jess
 #Date Created: 2022-10-04
 
-library(tidyverse)
+library(tidyverse): library(nlme)
 bees <- read.table('Bees.txt', header = TRUE)
 #spobee - density of p larvae spores per bee
 #infection - degree of infection
@@ -59,3 +59,13 @@ ggplot(bees, aes(x = Hive, y = Res))+
 
 #Q4 - What are the advantages of including hive as a random effect, rather than as a fixed effect?
 #As a random effect, it gives the model more degrees of freedom. Since we don't care about how each individual hive is responding to the stressor, adding it as a random effect allows for the model to be developed understanding that each hive may start from a different baseline but has the same reaction (random intercept), or that each hive has different responses that can all be sumamrized into a singluar response (random intercept and slope)
+
+# Q5 Step 3. Choose a variance structure or structures (the random effects). What random effects do you want to try?
+
+# We will use Hive as a random effect
+
+# Q6 Step 4. Fit the "beyond optimal" ME model(s) with lmer() in the lme4 package (transformed spore density is response, fInfection01, sBeesN, and interaction are the explanatory variables). Show your code.
+Q5.lme <- lme(Spobee ~ Infection*BeesN, random = ~ 1 | Hive,
+              method ="REML", data =bees)
+
+summary(Q5.lme)
