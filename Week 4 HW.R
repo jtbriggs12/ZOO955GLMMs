@@ -57,3 +57,5 @@ ggplot(bees, aes(x = Hive, y = Res))+
   geom_point()
 # residuals do not look homogenous - 
 
+#Q4 - What are the advantages of including hive as a random effect, rather than as a fixed effect?
+#As a random effect, it gives the model more degrees of freedom. Since we don't care about how each individual hive is responding to the stressor, adding it as a random effect allows for the model to be developed understanding that each hive may start from a different baseline but has the same reaction (random intercept), or that each hive has different responses that can all be sumamrized into a singluar response (random intercept and slope)
